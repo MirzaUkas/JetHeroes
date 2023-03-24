@@ -1,6 +1,7 @@
 package com.mirz.jetheroes
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -68,7 +69,13 @@ fun JetHeroesApp(
 
                 items(heroes, key = { it.id }) {
                     HeroListItem(
-                        name = it.name, photoUrl = it.photoUrl
+                        name = it.name,
+                        photoUrl = it.photoUrl,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateItemPlacement(
+                                tween(durationMillis = 100)
+                            )
                     )
                 }
             }
@@ -94,17 +101,14 @@ fun JetHeroesApp(
 
 @Composable
 fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    query: String, onQueryChange: (String) -> Unit, modifier: Modifier = Modifier
 ) {
     TextField(
         value = query,
         onValueChange = onQueryChange,
         leadingIcon = {
             Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = null
+                imageVector = Icons.Default.Search, contentDescription = null
             )
         },
         colors = TextFieldDefaults.textFieldColors(
@@ -126,12 +130,10 @@ fun SearchBar(
 
 @Composable
 fun CharacterHeader(
-    char: Char,
-    modifier: Modifier = Modifier
+    char: Char, modifier: Modifier = Modifier
 ) {
     Surface(
-        color = MaterialTheme.colors.primary,
-        modifier = modifier
+        color = MaterialTheme.colors.primary, modifier = modifier
     ) {
         Text(
             text = char.toString(),
